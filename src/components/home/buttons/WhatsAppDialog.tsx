@@ -67,6 +67,9 @@ export function WhatsAppDialog({
             <Label htmlFor="phone" className="text-white">WhatsApp</Label>
             <Input
               id="phone"
+              type="tel"
+              inputMode="tel"
+              pattern="[0-9]*"
               value={formData.phone}
               onChange={onPhoneChange}
               placeholder="(61) 99999-9999"
