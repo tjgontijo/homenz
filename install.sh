@@ -36,7 +36,7 @@ echo "⚙️ Configurando Nginx..."
 bash -c 'cat > /etc/nginx/sites-available/homenz <<EOF
 server {
     listen 80;
-    server_name homenz.com.br;
+    server_name homenz.com.br www.homenz.com.br;
 
     location / {
         proxy_pass http://127.0.0.1:3003;
@@ -79,7 +79,7 @@ fi
 
 # Configurar HTTPS com Certbot
 echo "🔒 Configurando HTTPS com Let's Encrypt..."
-certbot --nginx -d homenz.com.br --non-interactive --agree-tos --redirect -m tjgontijo@gmail.com
+certbot --nginx -d homenz.com.br -d www.homenz.com.br --non-interactive --agree-tos --redirect -m tjgontijo@gmail.com
 
 # Finalização
 echo "🔄 Reiniciando serviços..."
