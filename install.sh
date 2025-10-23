@@ -6,15 +6,15 @@ echo "🚀 Iniciando a instalação do servidor Next.js..."
 
 # Atualizar pacotes
 echo "🔄 Atualizando pacotes do sistema..."
-sudo apt update && sudo apt upgrade -y
+apt update && sudo apt upgrade -y
 
 echo "📦 Instalando dependências essenciais..."
-sudo apt install -y curl git unzip nginx certbot python3-certbot-nginx
+apt install -y curl git unzip nginx certbot python3-certbot-nginx
 
 # Clonar o repositório
 echo "📥 Clonando o repositório do projeto..."
 cd /var/www
-sudo git clone https://github.com/tjgontijo/homenz.git kadernim
+git clone https://github.com/tjgontijo/homenz.git kadernim
 cd homenz
 
 # Instalar dependências
@@ -33,7 +33,7 @@ pm2 startup
 
 # Configurar Nginx
 echo "⚙️ Configurando Nginx..."
-sudo bash -c 'cat > /etc/nginx/sites-available/homenz <<EOF
+bash -c 'cat > /etc/nginx/sites-available/homenz <<EOF
 server {
     listen 80;
     server_name homenz.com.br www.homenz.com.br;
@@ -63,15 +63,15 @@ EOF'
 
 # Ativar configuração do Nginx
 echo "🔄 Ativando configuração do Nginx..."
-sudo ln -s /etc/nginx/sites-available/homenz /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/homenz /etc/nginx/sites-enabled/
 
 # Testar a configuração antes de reiniciar
 echo "✅ Testando a configuração do Nginx..."
-sudo nginx -t
+nginx -t
 
 if [ $? -eq 0 ]; then
     echo "🔄 Reiniciando Nginx..."
-    sudo systemctl restart nginx
+    systemctl restart nginx
 else
     echo "❌ Erro na configuração do Nginx! Verifique o arquivo em /etc/nginx/sites-available/homenz"
     exit 1
@@ -79,11 +79,11 @@ fi
 
 # Configurar HTTPS com Certbot
 echo "🔒 Configurando HTTPS com Let's Encrypt..."
-sudo certbot --nginx -d homenz.com.br -d www.homenz.com.br --non-interactive --agree-tos --redirect -m tjgontijo@gmail.com
+certbot --nginx -d homenz.com.br -d www.homenz.com.br --non-interactive --agree-tos --redirect -m tjgontijo@gmail.com
 
 # Finalização
 echo "🔄 Reiniciando serviços..."
 pm2 restart all
-sudo systemctl restart nginx
+systemctl restart nginx
 
 echo "✅ Instalação concluída com sucesso! O site deve estar rodando em https://homenz.com.br"
