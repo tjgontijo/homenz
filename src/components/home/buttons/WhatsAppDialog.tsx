@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -37,6 +37,24 @@ export function WhatsAppDialog({
   onSubmit,
   isSubmitting,
 }: WhatsAppDialogProps) {
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const phoneInputRef = useRef<HTMLInputElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (open && nameInputRef.current) {
+      setTimeout(() => {
+        nameInputRef.current?.focus();
+        nameInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }, [open]);
+
+  const handlePhoneFocus = () => {
+    setTimeout(() => {
+      phoneInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
+  };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
@@ -44,36 +62,39 @@ export function WhatsAppDialog({
           {label}
         </Button>
       </DialogTrigger>
-      <DialogContent className="border-white/10 bg-[#0b162b] text-white shadow-xl">
+      <DialogContent ref={contentRef} className="border-white/10 bg-[#0b162b] text-white shadow-xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-white">Solicitação de Contato</DialogTitle>
           <DialogDescription className="text-white/70">
             Informe seu nome e whatsapp para que um de nossos especialistas entre em contato e apresente as melhores opções para o seu objetivo.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col gap-4 py-2">
+        <div className="flex flex-col gap-4 py-2 px-1">
           <div className="flex flex-col gap-2">
             <Label htmlFor="name" className="text-white">Nome</Label>
             <Input
+              ref={nameInputRef}
               id="name"
               value={formData.name}
               onChange={(event) => onNameChange(event.target.value)}
               placeholder="Digite seu nome"
-              className="text-white placeholder:text-white/40"
+              className="text-white placeholder:text-white/40 focus:ring-2 focus:ring-cyan-400"
             />
             {errors.name && <p className="text-sm text-red-400">{errors.name}</p>}
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="phone" className="text-white">WhatsApp</Label>
             <Input
+              ref={phoneInputRef}
               id="phone"
               type="tel"
               inputMode="tel"
               pattern="[0-9]*"
               value={formData.phone}
               onChange={onPhoneChange}
+              onFocus={handlePhoneFocus}
               placeholder="(61) 99999-9999"
-              className="text-white placeholder:text-white/40"
+              className="text-white placeholder:text-white/40 focus:ring-2 focus:ring-cyan-400"
             />
             {errors.phone && <p className="text-sm text-red-400">{errors.phone}</p>}
           </div>
