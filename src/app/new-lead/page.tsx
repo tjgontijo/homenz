@@ -215,8 +215,9 @@ export default function CreateLeadPage() {
                   render={({ field }) => (
                     <input
                       id="whatsapp"
-                      type="text"
-                      inputMode="numeric"
+                      type="tel"
+                      inputMode="tel"
+                      pattern="[0-9]*"
                       className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-[14px] text-white placeholder:text-white/40 outline-none transition focus:border-cyan-400 focus:bg-white/15"
                       placeholder="Somente números: 6199999999"
                       value={field.value ?? ""}
