@@ -37,8 +37,8 @@ const ORIGIN_OPTIONS = [
 ] as const satisfies readonly SelectOption[];
 
 const MEDIUM_OPTIONS = [
-  { label: "Pago", value: "Pago" },
-  { label: "Orgânico", value: "Orgânico" },
+  { label: "Pago", value: "pago" },
+  { label: "Orgânico", value: "orgânico" },
 ] as const satisfies readonly SelectOption[];
 
 const originValues = new Set<string>(
