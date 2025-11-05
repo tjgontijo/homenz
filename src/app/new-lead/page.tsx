@@ -22,23 +22,23 @@ type SelectOption = {
 };
 
 const ORIGIN_OPTIONS = [
-  { label: "Instagram", value: "instagram" },
-  { label: "Messenger", value: "messenger" },
-  { label: "Whatsapp", value: "whatsapp" },
-  { label: "Indicação", value: "referral" },
-  { label: "Ligação", value: "phone_call" },
-  { label: "Balcão", value: "front_desk" },
-  { label: "Google Meu Negócio", value: "google_business" },
-  { label: "Banner Externo", value: "outdoor_banner" },
-  { label: "Flyer", value: "flyer" },
-  { label: "Evento", value: "event" },
-  { label: "Parceria Comercial", value: "business_partner" },
-  { label: "Reativação de Cliente Antigo", value: "reactivated_client" },
+  { label: "Instagram", value: "Instagram" },
+  { label: "Messenger", value: "Messenger" },
+  { label: "Whatsapp", value: "Whatsapp" },
+  { label: "Indicação", value: "Indicação" },
+  { label: "Ligação", value: "Ligação" },
+  { label: "Balcão", value: "Balcão" },
+  { label: "Google Meu Negócio", value: "Google Meu Negócio" },
+  { label: "Banner Externo", value: "Banner Externo" },
+  { label: "Flyer", value: "Flyer" },
+  { label: "Evento", value: "Evento" },
+  { label: "Parceria Comercial", value: "Parceria Comercial" },
+  { label: "Reativação de Cliente Antigo", value: "Reativação de Cliente Antigo" },
 ] as const satisfies readonly SelectOption[];
 
 const MEDIUM_OPTIONS = [
-  { label: "Pago", value: "pago" },
-  { label: "Orgânico", value: "orgânico" },
+  { label: "Pago", value: "Pago" },
+  { label: "Orgânico", value: "Orgânico" },
 ] as const satisfies readonly SelectOption[];
 
 const originValues = new Set<string>(
@@ -217,7 +217,6 @@ export default function CreateLeadPage() {
                       id="whatsapp"
                       type="tel"
                       inputMode="tel"
-                      pattern="[0-9]*"
                       className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-[14px] text-white placeholder:text-white/40 outline-none transition focus:border-cyan-400 focus:bg-white/15"
                       placeholder="Somente números: 6199999999"
                       value={field.value ?? ""}
