@@ -58,8 +58,9 @@ export function HomeForm() {
     const tracking: TrackingPayload = {
       trafficSource,
       utm_source: utmData['utm_source'] ?? trafficSource,
-      utm_medium: utmData['utm_medium'] ?? 'bio',
-      utm_campaign: utmData['utm_campaign'] ?? 'button-whatsapp',
+      utm_medium: utmData['utm_medium'] ?? 'organic',
+      utm_campaign: utmData['utm_campaign'] ?? 'link-bio',
+      utm_content: utmData['utm_content'] ?? 'button-whatsapp',
       fbclid: utmData['fbclid'] ?? null,
       gclid: utmData['gclid'] ?? null,
     };
