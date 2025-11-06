@@ -62,20 +62,21 @@ const createLeadSchema = z.object({
       (value) => !value || validateWhatsApp(value),
       "Informe um WhatsApp válido"
     ),
+  instagram: z.string().trim().optional(),
   origin: z
     .string()
     .trim()
-    .optional()
+    .min(1, "Selecione uma origem")
     .refine(
-      (value) => !value || originValues.has(value),
+      (value) => originValues.has(value),
       "Selecione uma origem válida"
     ),
   medium: z
     .string()
     .trim()
-    .optional()
+    .min(1, "Selecione um meio")
     .refine(
-      (value) => !value || mediumValues.has(value),
+      (value) => mediumValues.has(value),
       "Selecione um meio válido"
     ),
 });
@@ -85,10 +86,11 @@ type CreateLeadFormValues = z.infer<typeof createLeadSchema>;
 type Payload = {
   name: string;
   whatsapp?: string | null;
+  instagram?: string | null;
   utm_source?: string | null;
   utm_medium?: string | null;
-  origin?: string;
-  medium?: string;
+  origin: string;
+  medium: string;
 };
 
 export default function CreateLeadPage() {
@@ -105,6 +107,7 @@ export default function CreateLeadPage() {
     defaultValues: {
       name: "",
       whatsapp: "",
+      instagram: "",
       origin: "",
       medium: "",
     },
@@ -119,10 +122,11 @@ export default function CreateLeadPage() {
     const payload: Payload = {
       name: values.name,
       whatsapp: values.whatsapp ? normalizeWhatsApp(values.whatsapp) : null,
+      instagram: values.instagram?.trim() ? values.instagram.trim() : null,
       utm_source: values.origin ?? null,
       utm_medium: values.medium ?? null,
-      origin: values.origin || undefined,
-      medium: values.medium || undefined,
+      origin: values.origin,
+      medium: values.medium,
     };
 
     try {
@@ -236,9 +240,30 @@ export default function CreateLeadPage() {
               <div>
                 <label
                   className="mb-2 block text-[14px] font-semibold text-white"
+                  htmlFor="instagram"
+                >
+                  Instagram
+                </label>
+                <input
+                  id="instagram"
+                  type="text"
+                  className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-[14px] text-white placeholder:text-white/40 outline-none transition focus:border-cyan-400 focus:bg-white/15"
+                  placeholder="@usuario"
+                  {...register("instagram")}
+                />
+                {errors.instagram ? (
+                  <p className="pt-2 text-[12px] text-red-300">
+                    {errors.instagram.message}
+                  </p>
+                ) : null}
+              </div>
+
+              <div>
+                <label
+                  className="mb-2 block text-[14px] font-semibold text-white"
                   htmlFor="origin"
                 >
-                  Origem
+                  Origem <span className="text-cyan-300">*</span>
                 </label>
                 <div className="rounded-xl border border-white/20 bg-white/10 transition focus-within:border-cyan-400 focus-within:bg-white/15">
                   <select
@@ -257,6 +282,11 @@ export default function CreateLeadPage() {
                     ))}
                   </select>
                 </div>
+                {errors.origin ? (
+                  <p className="pt-2 text-[12px] text-red-300">
+                    {errors.origin.message}
+                  </p>
+                ) : null}
               </div>
 
               <div>
@@ -264,7 +294,7 @@ export default function CreateLeadPage() {
                   className="mb-2 block text-[14px] font-semibold text-white"
                   htmlFor="medium"
                 >
-                  Meio
+                  Meio <span className="text-cyan-300">*</span>
                 </label>
                 <div className="rounded-xl border border-white/20 bg-white/10 transition focus-within:border-cyan-400 focus-within:bg-white/15">
                   <select
@@ -283,6 +313,11 @@ export default function CreateLeadPage() {
                     ))}
                   </select>
                 </div>
+                {errors.medium ? (
+                  <p className="pt-2 text-[12px] text-red-300">
+                    {errors.medium.message}
+                  </p>
+                ) : null}
               </div>
             </div>
 
