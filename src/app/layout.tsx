@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
+// Removed Toaster here; it will live inside dashboard layout to avoid client boundary issues.
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,11 +25,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
-        <Toaster richColors position="bottom-center" />
       </body>
     </html>
   );

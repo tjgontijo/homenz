@@ -12,22 +12,40 @@
 export function applyWhatsAppMask(value: string): string {
   // Remove tudo que não é número
   const numbers = value.replace(/\D/g, '');
-  
-  // Limita a 11 dígitos (DDD + 9 dígitos)
-  const limited = numbers.slice(0, 11);
-  
-  // Aplica a máscara
-  if (limited.length <= 2) {
-    return limited.length === 0 ? '' : `(${limited}`; // (11
-  } else if (limited.length <= 6) {
-    return `(${limited.slice(0, 2)}) ${limited.slice(2)}`; // (11) 9824
-  } else if (limited.length === 11) {
-    // Com nono dígito: (61) 98248-2100
-    return `(${limited.slice(0, 2)}) ${limited.slice(2, 7)}-${limited.slice(7)}`;
-  } else {
-    // Sem nono dígito: (61) 8248-2100
-    return `(${limited.slice(0, 2)}) ${limited.slice(2, 6)}-${limited.slice(6)}`;
+
+  if (!numbers) {
+    return '';
   }
+
+  let normalized = numbers;
+
+  if (normalized.length >= 12 && normalized.startsWith('55')) {
+    normalized = normalized.slice(2);
+  }
+
+  if (normalized.length > 11) {
+    normalized = normalized.slice(-11);
+  }
+
+  if (normalized.length < 10) {
+    return normalized;
+  }
+
+  const ddd = normalized.slice(0, 2);
+  let local = normalized.slice(2);
+
+  if (local.length > 9) {
+    local = local.slice(-9);
+  } else if (local.length === 8) {
+    local = `9${local}`;
+  } else if (local.length < 9) {
+    local = local.padStart(9, '0');
+  }
+
+  const firstPart = local.slice(0, 5);
+  const secondPart = local.slice(5);
+
+  return `(${ddd}) ${firstPart}-${secondPart}`;
 }
 
 /**
